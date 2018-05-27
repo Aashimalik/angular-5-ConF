@@ -5,7 +5,7 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Comment } from '../shared/comment';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -18,6 +18,7 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
   feedbackForm: FormGroup;
+  comment: Comment;
   formErrors = {
     'name': '',
     'comment': ''
@@ -53,7 +54,7 @@ export class DishdetailComponent implements OnInit {
     this.feedbackForm = this.fb.group({
        name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
        comment: ['',  Validators.required],
-       rating:''
+       rating:5
      });
      this.feedbackForm.valueChanges
      .subscribe(data => this.onValueChanged(data));
@@ -79,11 +80,12 @@ export class DishdetailComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedbackForm.value;
-    console.log(this.feedbackForm.value);
+    this.comment=this.feedbackForm.value;
+    this.comment.date = new Date().toISOString();
+    this.dish.comments.push(this.comment);
      this.feedbackForm.reset({
       name: '',
-      rating: '',
+      rating: 5,
       comment: ''
     });
   }
