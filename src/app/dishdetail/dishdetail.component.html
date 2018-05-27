@@ -40,6 +40,39 @@
               <h4 mat-line>{{c.rating}}</h4>
               <p mat-line>--{{c.author}} {{c.date | date}} </p>
           </md-list-item>
+          <!-- <pre *ngIf="feedbackForm.valid">{{feedbackForm.controls.name |json}}</pre> -->
+          <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+              <md-input-container class="full-width"
+               dividerColor="{{(formErrors.name) ? 'warn' : 'primary'}}">
+                <input mdInput formControlName="name" placeholder="Name" type="text" required>
+                <md-hint>
+                  <span [hidden]="!(formErrors.name)">
+                    {{formErrors.name}}</span>
+                </md-hint>
+              </md-input-container>
+              <br/>
+              <md-slider
+        [max]=5
+        [min]=1
+        [step]=1
+        [thumb-label]=true
+        [tick-interval]=1
+        formControlName="rating"
+        >
+    </md-slider>
+             
+             <br>
+             <md-input-container class="full-width"
+             dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
+             <textarea mdInput formControlName="comment" placeholder="Your comment" rows=12></textarea>
+              <md-hint>
+                <span [hidden]="!(formErrors.comment)">
+                  {{formErrors.comment}}</span>
+              </md-hint>
+            </md-input-container>
+            <br>
+            <button type="submit" md-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
+            </form>
         </md-list>
   </div>
 
