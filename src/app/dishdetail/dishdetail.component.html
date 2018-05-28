@@ -40,11 +40,52 @@
               <h4 mat-line>{{c.rating}}</h4>
               <p mat-line>--{{c.author}} {{c.date | date}} </p>
           </md-list-item>
+          <form class="full-width" novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" >
+              <md-input-container  class="full-width" 
+               dividerColor="{{(formErrors.name) ? 'warn' : 'primary'}}" >
+                <input mdInput  formControlName="name" placeholder="Name" type="text" required>
+                <md-hint>
+                  <span [hidden]="!(formErrors.name)">
+                    {{formErrors.name}}</span>
+                </md-hint>
+              </md-input-container>
+              <br/>
+              <md-slider
+        [max]=5
+        [min]=0
+        [step]=1
+        [thumbLabel]=true
+        [tickInterval]=1
+        formControlName="rating"
+        >
+    </md-slider>
+              <br/>
+              <md-input-container  class="full-width"  
+              dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
+                <textarea mdInput formControlName="comment" placeholder="Your Comment" type="text" required></textarea>
+                <md-hint>
+                  <span [hidden]="!(formErrors.comment)">
+                    {{formErrors.comment}}</span>
+                </md-hint>
+              </md-input-container>
+              <br/>
+            <button type="submit" md-button class="background-primary text-floral-white" >Submit</button>
+          </form> 
+
         </md-list>
+         
+
   </div>
 
   <div [hidden]="dish">
     <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
   </div>
 
+ 
+
+
 </div>
+
+
+
+
