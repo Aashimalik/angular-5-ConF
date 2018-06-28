@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Feedback, ContactType } from '../shared/feedback';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { FeedbackService } from '../services/feedback.service';
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent implements OnInit {
-
   feedbackForm: FormGroup;
   feedback: Feedback;
+  public show=null;
+  errMess: string;
+  isLoading :boolean=false;
   contactType = ContactType;
   formErrors = {
     'firstname': '',
@@ -38,11 +40,13 @@ export class ContactComponent implements OnInit {
       'email':         'Email not in valid format.'
     },
   };
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private sub:FeedbackService) {
     this.createForm();
    }
 
   ngOnInit() {
+
+   
   }
 
   createForm() {
@@ -79,8 +83,26 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+
+   this.feedback = this.feedbackForm.value;
+   this.isLoading = true;
+    this.sub.submitFeedback(this.feedback)
+    .subscribe(feedback => {
+                if(feedback){
+                  console.log(feedback);
+                    this.show=feedback;
+                    setTimeout(() => {
+                    this.feedback= null;
+                    this.isLoading=false;
+
+                }, 5000)
+                }
+              
+            },
+                errmess => {
+                    this.feedback = null; this.errMess = <any> errmess;
+                    this.isLoading=false;
+                });
      this.feedbackForm.reset({
       firstname: '',
       lastname: '',

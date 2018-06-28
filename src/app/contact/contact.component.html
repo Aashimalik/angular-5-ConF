@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div fxFlex fxFlexOffset="20px" class="form-size">
+      <div fxFlex fxFlexOffset="20px" *ngIf="!show" class="form-size">
         <h3>Send us your Feedback</h3>
         <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
 
@@ -96,4 +96,26 @@
           <button type="submit" md-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
         </form>
       </div>
+
+      <div fxFlex  *ngIf="show">
+      <div fxLayout="column" fxLayout.gt-sm="row">
+          <div fxFlex="50" fxFlexOffset="20px">
+                <h4>Form submitted</h4>
+               
+               <p></p>
+                <div>
+                   <p>Email: {{show.email}}</p><br/>
+                     <p>Firetname: {{show.firstname}}</p><br>
+                       <p>Lastname: {{show.lastname}}</p><br>
+                         <p>Telephone: {{show.telnum}}</p><br>
+                         <p>Message: {{show.message}}</p>
+                </div>
+            </div>
+          <div fxFlex="40">
+                
+          </div>
+        </div>
+
+
+
 </div>
